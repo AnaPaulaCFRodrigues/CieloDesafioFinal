@@ -6,6 +6,7 @@ import com.desafioFinal.dto.dadosListaPJ;
 import com.desafioFinal.model.pJuridica;
 import com.desafioFinal.repository.pessoaJuridicaRepository;
 import com.desafioFinal.service.filaPJ;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class PessoaJuridicaController {
     private filaPJ fila;
 
     @PostMapping("/pessoaPJ")
-    public ResponseEntity<pJuridica> cadastrarPJ(@RequestBody dadosCadastroPJ dados) {
+    public ResponseEntity<pJuridica> cadastrarPJ(@RequestBody @Valid dadosCadastroPJ dados) {
         try {
             var pj = pjRepository.save(new pJuridica(dados));
 
@@ -59,7 +60,7 @@ public class PessoaJuridicaController {
 
     @PutMapping("/pessoaPJ/{id}")
     @Transactional
-    public ResponseEntity<pJuridica> updatePF(@PathVariable("id") long id, @RequestBody dadosAtualizarPJ dados) {
+    public ResponseEntity<pJuridica> updatePF(@PathVariable("id") long id, @RequestBody @Valid dadosAtualizarPJ dados) {
         Optional<pJuridica> pfData = pjRepository.findById(id);
 
         if (pfData.isPresent()) {

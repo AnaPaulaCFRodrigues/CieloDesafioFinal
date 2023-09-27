@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface pessoaJuridicaRepository  extends JpaRepository<pJuridica, Long> {
 
-    pJuridica findByCNPJ(long CNPJ);
 
 }

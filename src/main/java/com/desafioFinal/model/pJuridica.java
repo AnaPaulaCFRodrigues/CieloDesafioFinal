@@ -20,11 +20,11 @@ public class pJuridica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private int MCC;
+    private String MCC;
 
-    private long CNPJ;
+    private String CNPJ;
 
-    private long CPF;
+    private String CPF;
 
     private String nomePJ;
 

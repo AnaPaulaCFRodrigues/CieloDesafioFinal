@@ -20,9 +20,9 @@ public class pFisica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private int MCC;
+    private String MCC;
 
-    private long CPF;
+    private String CPF;
 
     private String nomePF;
 
