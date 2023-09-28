@@ -7,6 +7,7 @@ import com.desafioFinal.model.pFisica;
 import com.desafioFinal.repository.pessoaFisicaRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,13 +29,24 @@ public class PessoaFisicaController {
     @Transactional
     public ResponseEntity<pFisica> cadastrarPF(@RequestBody @Valid dadosCadastroPF dados) {
         try {
-            var pf = pfRespository.save(new pFisica(dados));
+            List<pFisica> pTemp = new ArrayList<pFisica>();
+            pTemp = pfRespository.findByCPF(dados.CPF());
 
-            return new ResponseEntity<>(pf, HttpStatus.CREATED);
-        }catch(Exception e) {
+            pTemp.forEach(System.out::println);
+
+            if (pTemp.get(0).getId() == 0) {
+                return new ResponseEntity<>(null, HttpStatus.FOUND);
+            } else {
+                var pf = pfRespository.save(new pFisica(dados));
+
+                return new ResponseEntity<>(pf, HttpStatus.CREATED);
+            }
+        } catch (Exception e) {
+
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/pessoaPF")
     public ResponseEntity<List<dadosListaPF>> listarPF() {
         try {
@@ -59,7 +71,7 @@ public class PessoaFisicaController {
         if (pfData.isPresent()) {
             pFisica pfTemp = pfData.get();
 
-            return new ResponseEntity<>(pfRespository.save(pfTemp.atualizarInformacoes(dados,id)), HttpStatus.OK);
+            return new ResponseEntity<>(pfRespository.save(pfTemp.atualizarInformacoes(dados, id)), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -78,7 +90,7 @@ public class PessoaFisicaController {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationException(MethodArgumentNotValidException ex){
+    public Map<String, String> handleValidationException(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
 
         ex.getBindingResult().getAllErrors().forEach((error) -> {
