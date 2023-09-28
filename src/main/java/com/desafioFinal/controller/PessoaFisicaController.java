@@ -5,9 +5,9 @@ import com.desafioFinal.dto.dadosCadastroPF;
 import com.desafioFinal.dto.dadosListaPF;
 import com.desafioFinal.model.pFisica;
 import com.desafioFinal.repository.pessoaFisicaRepository;
+import com.desafioFinal.service.filaPF;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,28 +19,34 @@ import java.util.*;
 
 
 @RestController
-@RequestMapping
+@RequestMapping("/api")
 public class PessoaFisicaController {
 
     @Autowired
-    private pessoaFisicaRepository pfRespository;
+    private pessoaFisicaRepository pfRepository;
 
+    @Autowired
+    private filaPF fila;
+
+    @RequestMapping("/welcome")
+    public String welcomepage() {
+        return "Welcome to Yawin Tutor";
+    }
     @PostMapping("/pessoaPF")
     @Transactional
     public ResponseEntity<pFisica> cadastrarPF(@RequestBody @Valid dadosCadastroPF dados) {
         try {
             List<pFisica> pTemp = new ArrayList<pFisica>();
-            pTemp = pfRespository.findByCPF(dados.CPF());
+            pTemp = pfRepository.findByCPF(dados.CPF());
 
-            pTemp.forEach(System.out::println);
-
-            if (pTemp.get(0).getId() == 0) {
-                return new ResponseEntity<>(null, HttpStatus.FOUND);
-            } else {
-                var pf = pfRespository.save(new pFisica(dados));
+            if (pTemp.isEmpty()) {
+                var pf = pfRepository.save(new pFisica(dados));
 
                 return new ResponseEntity<>(pf, HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.FOUND);
             }
+
         } catch (Exception e) {
 
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -52,7 +58,7 @@ public class PessoaFisicaController {
         try {
             List<dadosListaPF> listaPF = new ArrayList<dadosListaPF>();
 
-            listaPF = pfRespository.findAll().stream().map(dadosListaPF::new).toList();
+            listaPF = pfRepository.findAll().stream().map(dadosListaPF::new).toList();
 
             if (listaPF.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -63,15 +69,29 @@ public class PessoaFisicaController {
         }
     }
 
+    @GetMapping("/pessoaPF/{cpf}")
+    @Transactional
+    public ResponseEntity<pFisica> procurarPF(@PathVariable("cpf") String cpf) {
+        List<pFisica> pTemp = new ArrayList<pFisica>();
+        pTemp = pfRepository.findByCPF(cpf);
+
+        if (pTemp.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(pTemp.get(0), HttpStatus.OK);
+        }
+    }
+
+
     @PutMapping("/pessoaPF/{id}")
     @Transactional
     public ResponseEntity<pFisica> updatePF(@PathVariable("id") long id, @RequestBody @Valid dadosAtualizarPF dados) {
-        Optional<pFisica> pfData = pfRespository.findById(id);
+        Optional<pFisica> pfData = pfRepository.findById(id);
 
         if (pfData.isPresent()) {
             pFisica pfTemp = pfData.get();
 
-            return new ResponseEntity<>(pfRespository.save(pfTemp.atualizarInformacoes(dados, id)), HttpStatus.OK);
+            return new ResponseEntity<>(pfRepository.save(pfTemp.atualizarInformacoes(dados, id)), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -81,7 +101,7 @@ public class PessoaFisicaController {
     @Transactional
     public ResponseEntity<HttpStatus> deletePF(@PathVariable("id") long id) {
         try {
-            pfRespository.deleteById(id);
+            pfRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

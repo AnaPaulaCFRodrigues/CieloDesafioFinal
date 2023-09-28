@@ -2,6 +2,8 @@ package com.desafioFinal.repository;
 
 import com.desafioFinal.model.pFisica;
 
+import java.util.LinkedList;
+
 public interface IfilaPF {
 
     void addPJ(pFisica item);
@@ -11,4 +13,6 @@ public interface IfilaPF {
     boolean isEmpty();
 
     int size();
+
+    LinkedList<pFisica> retornarLista();
 }

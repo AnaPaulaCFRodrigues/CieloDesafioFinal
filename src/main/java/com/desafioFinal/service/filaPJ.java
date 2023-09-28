@@ -29,4 +29,8 @@ public class filaPJ implements IfilaPJ {
     public int size() {
         return fila_pj.size();
     }
+
+    public LinkedList<pJuridica> retornarLista(){
+        return fila_pj;
+    }
 }

@@ -1,6 +1,5 @@
 package com.desafioFinal.config;
 
-
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import org.springdoc.core.models.GroupedOpenApi;
@@ -13,12 +12,11 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
         info = @Info(
                 title = "Desafio Final",
-                description = "API para CRUD Filas FIFO",
+                description = "API para CRUD em Filas FIFO",
                 version = "1.0.0"
         )
 )
-
-public class SwaggerConfiguration {
+public class OpenAPIConfig {
 
     @Bean
     public GroupedOpenApi controllers() {

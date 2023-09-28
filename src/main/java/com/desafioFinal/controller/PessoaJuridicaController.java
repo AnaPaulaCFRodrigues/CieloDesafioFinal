@@ -11,17 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api")
 public class PessoaJuridicaController {
 
-    @Autowired
+   @Autowired
     private pessoaJuridicaRepository pjRepository;
 
     @Autowired
@@ -30,12 +30,20 @@ public class PessoaJuridicaController {
     @PostMapping("/pessoaPJ")
     public ResponseEntity<pJuridica> cadastrarPJ(@RequestBody @Valid dadosCadastroPJ dados) {
         try {
-            var pj = pjRepository.save(new pJuridica(dados));
 
-            //adicionando na lista
-            fila.addPJ(pj);
+            List<pJuridica> pTemp = new ArrayList<pJuridica>();
+            pTemp = pjRepository.findByCNPJ(dados.CNPJ());
 
-            return new ResponseEntity<>(pj, HttpStatus.CREATED);
+            if (pTemp.isEmpty()) {
+                var pj = pjRepository.save(new pJuridica(dados));
+
+                //adicionando na lista
+                fila.addPJ(pj);
+
+                return new ResponseEntity<>(pj, HttpStatus.CREATED);
+            }else{
+                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            }
         }catch(Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -57,14 +65,31 @@ public class PessoaJuridicaController {
         }
     }
 
+    @GetMapping("/pessoaPJ/{cnpj}")
+    @Transactional
+    public ResponseEntity<pJuridica> procurarPJ(@PathVariable("cnpj") String cnpj) {
+        List<pJuridica> pTemp = new ArrayList<pJuridica>();
+        pTemp = pjRepository.findByCNPJ(cnpj);
 
-    @PutMapping("/pessoaPJ/{id}")
+        if (pTemp.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(pTemp.get(0), HttpStatus.OK);
+        }
+    }
+
+    @PutMapping("pessoaPJ/{id}")
     @Transactional
     public ResponseEntity<pJuridica> updatePF(@PathVariable("id") long id, @RequestBody @Valid dadosAtualizarPJ dados) {
         Optional<pJuridica> pfData = pjRepository.findById(id);
 
         if (pfData.isPresent()) {
+
             pJuridica pjTemp = new pJuridica();
+
+            //adicionando na lista
+            fila.addPJ(pjTemp.atualizarInformacoes(dados, id));
+
             return new ResponseEntity<>(pjRepository.save(pjTemp.atualizarInformacoes(dados, id)), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -84,6 +109,19 @@ public class PessoaJuridicaController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationException(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
     }
 
 }

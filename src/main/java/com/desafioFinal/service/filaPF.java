@@ -27,4 +27,8 @@ public class filaPF {
     public int size() {
         return fila_pf.size();
     }
+
+    public LinkedList<pFisica> retornarLista(){
+        return fila_pf;
+    }
 }
