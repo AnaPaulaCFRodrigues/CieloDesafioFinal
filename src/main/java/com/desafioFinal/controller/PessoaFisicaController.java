@@ -28,10 +28,7 @@ public class PessoaFisicaController {
     @Autowired
     private filaPF fila;
 
-    @RequestMapping("/welcome")
-    public String welcomepage() {
-        return "Welcome to Yawin Tutor";
-    }
+
     @PostMapping("/pessoaPF")
     @Transactional
     public ResponseEntity<pFisica> cadastrarPF(@RequestBody @Valid dadosCadastroPF dados) {
