@@ -19,6 +19,12 @@ O layout da aplicação será desenvolvido em React.
 
 ---
 
+## 📄 Documentação
+
+A documentação das funcionalidades da aplicação pode ser acessada neste link: <a href="http://localhost:8080/swagger-ui/index.html#/">Swagger</a>
+
+---
+
 ## 🛠 Tecnologias
 
 As seguintes tecnologias foram utilizadas no desenvolvimento da API Rest do projeto:
@@ -39,4 +45,3 @@ Projeto desenvolvido por Ana Paula Citro Fujarra Rodrigues e utilizado no Bootca
 Instrutores: Michael Tadeu Alves de Oliveira e Jaque Laurenti
 
 ---
-
