@@ -20,7 +20,7 @@ const ListaPF = () => {
      
   }, [])
 
-  return (<section className={estilos.Restaurante}>
+  return (<section className={estilos.ListaPF}>
     <div className={estilos.Titulo}>
       <h2>Pessoa Física</h2>
     </div>

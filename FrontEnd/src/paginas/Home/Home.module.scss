@@ -28,6 +28,25 @@
     }
 }
 
+.botao {
+    align-self: center;
+    background-color: #c1b8ed;
+    border-radius: 10px;
+    box-shadow: 2px 4px 4px #0000009F;
+    color: #000000;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 16px;
+    width: 50%;
+    margin-left: 25%;
+  
+    
+    &:active {
+      background-color: #7CA6B7;
+      box-shadow: 2px 2px 4px #0000009F inset;
+    }
+  }
+
 .Categorias {
     display: flex;
     justify-content: space-evenly;

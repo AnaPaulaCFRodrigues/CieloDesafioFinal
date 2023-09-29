@@ -10,10 +10,13 @@ const PF = ({ pf }: PFProps) => {
     <div className={estilos.Conteudo}>
       <h3>{pf.nomePF}</h3>
       <div className={estilos.Tag}>
-        {pf.CPF}
+        CPF: {pf.CPF}
+      </div>
+      <div className={estilos.Tag}>
+        MCC: {pf.MCC}
       </div>
       <div>
-        {pf.emailPF} - {pf.MCC}
+        Email: {pf.emailPF} - {pf.MCC}
       </div>
     </div>
   </div>)

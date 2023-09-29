@@ -25,7 +25,7 @@ const ListaPessoasF = () => {
  
 
   return (<section className={style.listaPessoasF}>
-    <h1>Estes são os clientes!</h1>
+    <h1>Lista de clientes!</h1>
     <ListaPF  />
    
   </section>)
