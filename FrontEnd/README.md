@@ -40,6 +40,7 @@ As seguintes tecnologias foram utilizadas no desenvolvimento do site do projeto:
 - **Axios**
 - **Sass**
 - **HTML e CSS**
+- **React com TypeScript**
 
 ---
 
