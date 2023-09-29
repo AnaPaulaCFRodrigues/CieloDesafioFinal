@@ -79,6 +79,17 @@ public class PessoaFisicaController {
         }
     }
 
+    @GetMapping("/pessoaPF/{id}")
+    @Transactional
+    public ResponseEntity<pFisica> procurarPFByID(@PathVariable("id") long id) {
+        Optional<pFisica> pTemp = pfRepository.findById(id);
+
+        if (pTemp.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(pTemp.get(), HttpStatus.OK);
+        }
+    }
 
     @PutMapping("/pessoaPF/{id}")
     @Transactional

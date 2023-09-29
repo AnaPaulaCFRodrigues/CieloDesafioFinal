@@ -2,6 +2,7 @@ import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typo
 import { useEffect, useState } from "react"
 import http from "../../../http"
 import { useParams } from "react-router-dom"
+import IListaPF from "../../../interfaces/IListaPF"
 
 const FormularioPessoa = () => {
 
@@ -9,14 +10,17 @@ const FormularioPessoa = () => {
     const [MCC, setMCC] = useState('')
     const [CPF, setCPF] = useState('')
     const [emailPF, setemailPF] = useState('')
-    const [pessoa, setPessoa] = useState('')
+    const [pessoa, setPessoa] = useState<IListaPF[]>([])
 
     const parametros = useParams()
 
     useEffect(() => {
         if (parametros.id) {
-            http.get(`pessoaPF/${parametros.id}`)
-                .then(resposta => setPessoa(resposta.data))
+            http.get(`http://localhost:8080/api/pessoaPF/${parametros.id}`)
+                .then(resposta => {
+                    console.log(resposta.data)
+                    setPessoa(resposta.data)
+                })
         }
     }, [parametros])
 
@@ -36,18 +40,18 @@ const FormularioPessoa = () => {
             CPF: CPF,
             emailPF: emailPF
         }
-
+        console.log(data)
 
         if (parametros.id) {
-            http.put(`pessoaPF/${parametros.id}/`, {
+
+            http.put(`pessoaPF/${parametros.id}`, 
                 data
-            })
+            )
                 .then(() => {
-                    alert("Restaurante atualizado com sucesso!")
+                    alert("Cliente atualizado com sucesso!")
                 })
         }
         else {
-            console.log(data)
 
             http.request({
                 url: 'pessoaPF',
