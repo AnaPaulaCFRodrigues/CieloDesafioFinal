@@ -35,6 +35,11 @@ As seguintes tecnologias foram utilizadas no desenvolvimento da API Rest do proj
 - **[H2 Database](https://www.h2database.com/html/main.html)**
 - **[Hibernate](https://hibernate.org)**
 - **[Lombok](https://projectlombok.org)**
+- **Axios**
+- **Sass**
+- **HTML e CSS**
+- **React com TypeScript**
+
 
 ---
 
