@@ -2,7 +2,7 @@
 
 DesafioFinal é uma controle de clientes (fictício), podendo ser pessoa física ou pessoa jurídica,  que precisa de um app para gestão dos clientes. O app deve possuir funcionalidades que permitam o cadastro, a pesquisa, a alteração e a exclusao de clientes.
 
-DesafioFinal é uma API Rest.
+DesafioFinal é uma API Rest e um Site.
 
 ---
 
