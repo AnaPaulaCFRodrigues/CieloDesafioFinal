@@ -39,6 +39,7 @@
     padding: 16px;
     width: 50%;
     margin-left: 25%;
+    font-size: 2em;
   
     
     &:active {
@@ -47,32 +48,7 @@
     }
   }
 
-.Categorias {
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    align-items: center;
 
-    .TipoDePrato {
-        text-align: center;
-
-        img {
-            max-width: 100%;
-            overflow: hidden;
-            border: 10px solid #eaf0ff;
-            border-radius: 50%;
-        }
-
-        h4 {
-            margin-top: 20px;
-            font-size: 22px;
-            color: #121212;
-            font-weight: 600;
-            margin-bottom: 0px;
-        }
-    }
-
-}
 .Links {
     text-align: center;
     margin: 2.5rem 0;

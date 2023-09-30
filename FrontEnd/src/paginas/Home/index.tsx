@@ -10,8 +10,7 @@ function App() {
       <NavBar />
       <Banner />
       <div className={estilos.Links}>
-        <h1>Gerenciar API</h1>
-        <p className={estilos.botao}>Clique <Link to='/admin'>aqui</Link></p>
+        <p className={estilos.botao}><Link to='/admin'>Gerenciar API</Link></p>
       </div>
       <Rodape />
     </>

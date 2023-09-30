@@ -111,6 +111,16 @@ public class PessoaJuridicaController {
         }
     }
 
+    @GetMapping("/filapj")
+    public boolean isEmpty() {
+        return fila.isEmpty();
+    }
+
+    @GetMapping("/filapj/size")
+    public int size() {
+        return fila.size();
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationException(MethodArgumentNotValidException ex) {

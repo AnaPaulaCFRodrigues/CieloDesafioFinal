@@ -1,19 +1,20 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { IPaginacao } from '../../interfaces/IPaginacao';
 import IListaPF from '../../interfaces/IListaPF';
 import style from './ListaPessoasF.module.scss';
 import ListaPF from './ListaPF';
+import http from '../../http';
 
 const ListaPessoasF = () => {
 
   const [pessoas, setPessoas] = useState<IListaPF[]>([])
+  const [size, setSize] = useState()
   
 
   useEffect(() => {
     // obter pessoas
     console.log("passei")
-    axios.get('http://localhost:8080/api/pessoaPF')
+    http.get('http://localhost:8080/api/pessoaPF')
       .then(resposta => {
         console.log(resposta.data)
         setPessoas(resposta.data)        

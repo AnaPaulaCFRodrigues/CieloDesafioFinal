@@ -39,6 +39,9 @@ public class PessoaFisicaController {
             if (pTemp.isEmpty()) {
                 var pf = pfRepository.save(new pFisica(dados));
 
+                //adicionando na lista
+                fila.addPF(pf);
+
                 return new ResponseEntity<>(pf, HttpStatus.CREATED);
             } else {
                 return new ResponseEntity<>(null, HttpStatus.FOUND);
@@ -99,6 +102,9 @@ public class PessoaFisicaController {
         if (pfData.isPresent()) {
             pFisica pfTemp = pfData.get();
 
+            //adicionando na lista
+            fila.addPF(pfRepository.save(pfTemp.atualizarInformacoes(dados, id)));
+
             return new ResponseEntity<>(pfRepository.save(pfTemp.atualizarInformacoes(dados, id)), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -110,10 +116,22 @@ public class PessoaFisicaController {
     public ResponseEntity<HttpStatus> deletePF(@PathVariable("id") long id) {
         try {
             pfRepository.deleteById(id);
+            //removendo da lista
+            fila.removerPF();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/fila")
+    public boolean isEmpty() {
+        return fila.isEmpty();
+    }
+
+    @GetMapping("/fila/size")
+    public int size() {
+        return fila.size();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

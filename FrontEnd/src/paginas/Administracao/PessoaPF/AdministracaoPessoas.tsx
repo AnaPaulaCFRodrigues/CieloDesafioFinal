@@ -17,7 +17,7 @@ const AdministracaoPessoas = () => {
     const excluir = (pessoaAhSerExcluido: IPessoa) => {
         http.delete(`pessoaPF/${pessoaAhSerExcluido.id}`)
             .then(() => {
-                const listapessoas = pessoas.filter(prato => prato.id !== pessoaAhSerExcluido.id)
+                const listapessoas = pessoas.filter(pessoa => pessoa.id !== pessoaAhSerExcluido.id)
                 setpessoas([...listapessoas])
             })
     }

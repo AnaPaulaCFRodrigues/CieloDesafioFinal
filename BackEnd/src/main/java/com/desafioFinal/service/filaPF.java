@@ -9,11 +9,11 @@ public class filaPF {
 
     private LinkedList<pFisica> fila_pf = new LinkedList<>();
 
-    public void addPJ(pFisica item) {
+    public void addPF(pFisica item) {
         fila_pf.addLast(item);
     }
 
-    public pFisica removerPJ() {
+    public pFisica removerPF() {
         if (isEmpty()) {
             throw new IllegalStateException("Queue is empty");
         }

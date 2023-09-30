@@ -6,9 +6,9 @@ import java.util.LinkedList;
 
 public interface IfilaPF {
 
-    void addPJ(pFisica item);
+    void addPF(pFisica item);
 
-    pFisica removerPJ();
+    pFisica removerPF();
 
     boolean isEmpty();
 
